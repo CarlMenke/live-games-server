@@ -11,7 +11,7 @@ const GetAllUsers = async (req,res) =>{
 }
 const signup = async (req,res) => {
     try{
-        const exists = User.findOne({
+        const exists = await User.findOne({
             where:{
                 name:req.body.name
             }
@@ -31,7 +31,21 @@ const signup = async (req,res) => {
 }
 const login = async (req,res) => {
     try{
+        const user = await User.findOne({
+            where:{name:req.body.name},
+            raw:true
+        })
 
+        if(user && (await middleware.comparePassword(user.password, req.body.password))){
+            let payload = {
+                id:user.id,
+                name:user.name
+            }
+            let token = middleware.createToken(payload)
+            res.send({user: payload, token, message:"Welcome!"})
+        }else{
+            res.status(401).send({message:'Incorrect Password or Name'})
+        }
     }catch(error){
         throw error
     }
