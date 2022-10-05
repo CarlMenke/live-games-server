@@ -3,12 +3,39 @@ const controller = require('../controllers/UserController')
 const middleware = require('../middleware')
 
 
-Router.post('/signup',controller.signup)
-Router.get('/details/:userId', controller.GetUserDetails)
-Router.put('/update/:userId',controller.UpdateUser)
-Router.delete('/delete/:userId', controller.DeleteUser)
-Router.get('/all', controller.GetAllUsers)
-Router.get('/login',controller.login)
+Router.post(
+    '/signup',
+    controller.signup
+)
+Router.get(
+    '/details/:userId',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.GetUserDetails
+)
+Router.put(
+    '/update/:userId',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.UpdateUser
+)
+Router.delete(
+    '/delete/:userId',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.DeleteUser
+ )
+Router.get(
+    '/all',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.GetAllUsers
+ )
+Router.post(
+    '/login',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.login)
 
 module.exports = Router
 
