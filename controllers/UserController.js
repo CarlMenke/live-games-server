@@ -2,6 +2,8 @@ const {User , Message, Conversation}  = require('../models')
 const {Op} = require('sequelize')
 const middleware = require('../middleware')
 
+
+
 const GetAllUsers = async (req,res) =>{
     try{
 
@@ -11,6 +13,7 @@ const GetAllUsers = async (req,res) =>{
 }
 const signup = async (req,res) => {
     try{
+        console.log(req.body)
         const exists = await User.findOne({
             where:{
                 name:req.body.name
@@ -21,9 +24,9 @@ const signup = async (req,res) => {
             const {name, password} = req.body
             let hashedPassword = await middleware.hashPassword(password)
             const user = await User.create({name:name, password:hashedPassword})
-            res.send({user:user,message:"Welcome!"})
+            res.send({user:user,login:true, message:`Welcome ${user.name}`})
         }else{
-            res.send({message:"Name Already In Use"})
+            res.send({login:false, message:"Name Already In Use, Try Again"})
         }
     }catch(error){
         throw error
