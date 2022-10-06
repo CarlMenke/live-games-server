@@ -7,8 +7,8 @@ Router.post(
     '/signup',
     controller.signup
 )
-Router.get(
-    '/details/:userId',
+Router.post(
+    '/details',
     middleware.stripToken,
     middleware.verifyToken,
     controller.GetUserDetails
@@ -47,6 +47,13 @@ Router.post(
     middleware.verifyToken,
     controller.GetSocketFromName
 )
+Router.post(
+    '/friendrequest',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.SendFriendRequest
+)
+
 
 module.exports = Router
 

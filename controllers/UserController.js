@@ -1,4 +1,4 @@
-const {User , Message, Conversation}  = require('../models')
+const {User , Message, Conversation, UserFriendRequests}  = require('../models')
 const middleware = require('../middleware')
 
 const GetAllUsers = async (req,res) => {
@@ -13,7 +13,12 @@ const signup = async (req,res) => {
         const exists = await User.findOne({
             where:{
                 name:req.body.name
-            }
+            },
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+            }]
         })
         if(!exists){
             const { name, password } = req.body
@@ -36,7 +41,12 @@ const login = async (req,res) => {
     try{
         const user = await User.findOne({
             where:{name:req.body.name},
-            raw:true
+            raw:true,
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+            }]
         })
 
         if(user && (await middleware.comparePassword(user.password, req.body.password))){
@@ -56,7 +66,12 @@ const login = async (req,res) => {
 const UpdateSocketId = async (req,res) => {
     try{
         let user = await User.findOne(
-            {where:{name:req.body.name}}
+            {where:{name:req.body.name},
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+            }]}
         )
         user.set({socket:req.body.socket})
         user = await user.save()
@@ -81,7 +96,18 @@ const DeleteUser = async (req,res) => {
 }
 const GetUserDetails = async (req,res) => {
     try{
-
+        const user = await User.findOne({
+            where:{
+                id:req.body.userId
+            },
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+            }]
+        })
+        console.log(user)
+        res.send(user)
     }catch(error){
         throw error
     }
@@ -96,6 +122,27 @@ const GetSocketFromName = async (req,res) => {
         throw error
     }
 }
+const SendFriendRequest = async (req,res) => {
+    try{
+        const {senderId, recieverName} = req.body
+        const user = await User.findOne({
+            where:{name:recieverName}
+        })
+        if(!user){
+            res.send({message:'User Not Found'})
+        }else{
+            const check = await UserFriendRequests.findOne({where:{userId:senderId, friendId:user.id}})
+            if(check){
+                res.send({message:"Request Pending"})
+            }else{
+                const request = await UserFriendRequests.create({userId:senderId, friendId:user.id})
+                res.send({requestIds:request, message:`Friend Request Sent To ${recieverName}`})
+            }
+        }
+    }catch(error){
+        throw error
+    }
+}
 module.exports = {
     signup,
     DeleteUser,
@@ -104,5 +151,6 @@ module.exports = {
     GetAllUsers,
     login,
     UpdateSocketId,
-    GetSocketFromName
+    GetSocketFromName,
+    SendFriendRequest
 }
