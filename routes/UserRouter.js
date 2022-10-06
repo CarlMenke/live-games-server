@@ -53,6 +53,12 @@ Router.post(
     middleware.verifyToken,
     controller.SendFriendRequest
 )
+Router.post(
+    '/friendrequestresponse',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.FriendRequestResponse
+)
 
 
 module.exports = Router

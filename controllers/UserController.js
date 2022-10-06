@@ -1,4 +1,4 @@
-const {User , Message, Conversation, UserFriendRequests}  = require('../models')
+const {User , Message, Conversation, UserFriendRequests, UserFriends}  = require('../models')
 const middleware = require('../middleware')
 
 const GetAllUsers = async (req,res) => {
@@ -40,15 +40,19 @@ const signup = async (req,res) => {
 const login = async (req,res) => {
     try{
         const user = await User.findOne({
-            where:{name:req.body.name},
-            raw:true,
+            where:{
+                name:req.body.name,
+            },           
             include:[{
                 model:User,
                 as:'friendrequestrecieved',
                 through:UserFriendRequests
-            }]
-        })
-
+        },
+        {
+            model:User,
+            as:'friend',
+            through:UserFriends
+    }]})
         if(user && (await middleware.comparePassword(user.password, req.body.password))){
             let payload = {
                 id:user.id,
@@ -71,8 +75,12 @@ const UpdateSocketId = async (req,res) => {
                 model:User,
                 as:'friendrequestrecieved',
                 through:UserFriendRequests
-            }]}
-        )
+        },
+        {
+            model:User,
+            as:'friend',
+            through:UserFriends
+    }]})
         user.set({socket:req.body.socket})
         user = await user.save()
         res.send(user)
@@ -104,9 +112,12 @@ const GetUserDetails = async (req,res) => {
                 model:User,
                 as:'friendrequestrecieved',
                 through:UserFriendRequests
-            }]
-        })
-        console.log(user)
+        },
+        {
+            model:User,
+            as:'friend',
+            through:UserFriends
+    }]})
         res.send(user)
     }catch(error){
         throw error
@@ -115,8 +126,19 @@ const GetUserDetails = async (req,res) => {
 const GetSocketFromName = async (req,res) => {
     try{
         const user = await User.findOne({
-            where:{name:req.body.name}
-        })
+            where:{
+                name:req.body.name
+            },           
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+        },
+        {
+            model:User,
+            as:'friend',
+            through:UserFriends
+    }]})
         res.send(user.socket)
     }catch(error){
         throw error
@@ -131,13 +153,46 @@ const SendFriendRequest = async (req,res) => {
         if(!user){
             res.send({message:'User Not Found'})
         }else{
-            const check = await UserFriendRequests.findOne({where:{userId:senderId, friendId:user.id}})
-            if(check){
+            const check1 = await UserFriendRequests.findOne({where:{userId:senderId, friendId:user.id}})
+            const check2 = await UserFriends.findOne({where:{userId:senderId, friendId:user.id}})
+            if(check1){
                 res.send({message:"Request Pending"})
+            }
+            else if(check2){
+                res.send({message:"Already Friends"})
             }else{
                 const request = await UserFriendRequests.create({userId:senderId, friendId:user.id})
                 res.send({requestIds:request, message:`Friend Request Sent To ${recieverName}`})
             }
+        }
+    }catch(error){
+        throw error
+    }
+}
+const FriendRequestResponse = async (req,res) => {
+    try{
+        const {userId, friendId, choice,} = req.body
+        await UserFriendRequests.destroy({where:{userId:userId, friendId:friendId}})
+        const user = await User.findOne({
+            where:{
+                id:friendId
+            },           
+            include:[{
+                model:User,
+                as:'friendrequestrecieved',
+                through:UserFriendRequests
+        },
+        {
+            model:User,
+            as:'friend',
+            through:UserFriends
+    }]})
+        if(choice){
+            await UserFriends.create({userId:userId, friendId:friendId})
+            await UserFriends.create({userId:friendId, friendId:userId})
+            res.send({user:user})
+        }else{
+            res.send({message:`${friend.name}'s friend request denied.`})
         }
     }catch(error){
         throw error
@@ -152,5 +207,6 @@ module.exports = {
     login,
     UpdateSocketId,
     GetSocketFromName,
-    SendFriendRequest
+    SendFriendRequest,
+    FriendRequestResponse,
 }

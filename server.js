@@ -35,6 +35,10 @@ io.on("connection", (socket) => {
     socket.on("getSocketId", () => {
         socket.emit("recievedSocketId",socket.id)
     })
+
+    socket.on('send reload' , ((userSocketId)=>{
+        socket.to(userSocketId).emit("recieve reload")
+    }))
 })
 
 server.listen(3002, () => console.log("Socket.io Server Started On Port: 3002"))
