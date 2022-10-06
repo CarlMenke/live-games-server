@@ -1,6 +1,4 @@
-const {User , Message, Conversation, userConversation}  = require('../models')
-const {Op} = require('sequelize')
-
+const { User, Message, Conversation, userConversation }  = require('../models')
 
 const CreateConversation = async (req,res) => {
     try{
@@ -11,7 +9,6 @@ const CreateConversation = async (req,res) => {
         throw error
     }
 }
-
 const UpdateConversation = async (req,res) => {
     try{
 
@@ -19,7 +16,6 @@ const UpdateConversation = async (req,res) => {
         throw error
     }
 }
-
 const DeleteConversation = async (req,res) => {
     try{
 
@@ -27,7 +23,6 @@ const DeleteConversation = async (req,res) => {
         throw error
     }
 }
-
 const GetConversation = async (req,res) => {
     try{
 
@@ -35,7 +30,6 @@ const GetConversation = async (req,res) => {
         throw error
     }
 }
-
 const GetUsersConversations = async (req,res) => {
     try{
         const userAndConversations = await User.findOne({
@@ -52,9 +46,6 @@ const GetUsersConversations = async (req,res) => {
         throw error
     }
 }
-
-
-
 
 module.exports = {
     CreateConversation,

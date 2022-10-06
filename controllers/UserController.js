@@ -1,8 +1,7 @@
 const {User , Message, Conversation}  = require('../models')
-const {Op} = require('sequelize')
 const middleware = require('../middleware')
 
-const GetAllUsers = async (req,res) =>{
+const GetAllUsers = async (req,res) => {
     try{
 
     }catch(error){
@@ -16,17 +15,16 @@ const signup = async (req,res) => {
                 name:req.body.name
             }
         })
-        console.log(exists)
         if(!exists){
-            const {name, password} = req.body
+            const { name, password } = req.body
             let hashedPassword = await middleware.hashPassword(password)
-            const user = await User.create({name:name, password:hashedPassword})
+            const user = await User.create({name:name, password:hashedPassword,socket:'Not Yet Connected'})
             let payload = {
                 id:user.id,
                 name:user.name
             }
             let token = middleware.createToken(payload)
-            res.send({user:user,login:true, message:`Welcome ${user.name}`, token:token})
+            res.send({user: user, token, login:true, message:`Welcome ${user.name}`})
         }else{
             res.send({login:false, message:"Name Already In Use, Try Again"})
         }
@@ -47,10 +45,22 @@ const login = async (req,res) => {
                 name:user.name
             }
             let token = middleware.createToken(payload)
-            res.send({user: payload, token,login:true, message:`Welcome ${user.name}`})
+            res.send({user: payload, token, login:true, message:`Welcome ${user.name}`})
         }else{
-            res.status(401).send({message:'Incorrect Password or Name'})
+            res.send({login:false, message:'Incorrect Password or Name'})
         }
+    }catch(error){
+        throw error
+    }
+}
+const UpdateSocketId = async (req,res) => {
+    try{
+        let user = await User.findOne(
+            {where:{name:req.body.name}}
+        )
+        user.set({socket:req.body.socket})
+        user = await user.save()
+        res.send(user)
     }catch(error){
         throw error
     }
@@ -78,6 +88,16 @@ const GetUserDetails = async (req,res) => {
         throw error
     }
 }
+const GetSocketFromName = async (req,res) => {
+    try{
+        const user = await User.findOne({
+            where:{name:req.body.name}
+        })
+        res.send(user.socket)
+    }catch(error){
+        throw error
+    }
+}
 
 module.exports = {
     signup,
@@ -85,5 +105,7 @@ module.exports = {
     GetUserDetails,
     UpdateUser,
     GetAllUsers,
-    login
+    login,
+    UpdateSocketId,
+    GetSocketFromName
 }

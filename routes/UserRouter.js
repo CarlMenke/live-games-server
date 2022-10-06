@@ -33,9 +33,20 @@ Router.get(
  )
 Router.post(
     '/login',
+    controller.login
+)
+Router.put(
+    '/update/socket/id',
     middleware.stripToken,
     middleware.verifyToken,
-    controller.login)
+    controller.UpdateSocketId
+)
+Router.post(
+    '/getsocket',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.GetSocketFromName
+)
 
 module.exports = Router
 

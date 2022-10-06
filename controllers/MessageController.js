@@ -1,7 +1,6 @@
-const {User , Message, Conversation}  = require('../models')
-const {Op} = require('sequelize')
+const {User, Message, Conversation}  = require('../models')
 
-const getMessagesByConversation = async (req,res) =>{
+const getMessagesByConversation = async (req,res) => {
     try{
         const conversationAndMessages = await Conversation.findOne({
             where:{
@@ -24,13 +23,11 @@ const CreateMessage = async (req,res) => {
             senderId:req.body.senderId,
             conversationId:req.body.conversationId
         })
-        console.log(message)
         res.send(message)
     }catch(error){
         throw error
     }
 }
-
 const DeleteMessage = async (req,res) => {
     try{
 
@@ -38,7 +35,6 @@ const DeleteMessage = async (req,res) => {
         throw error
     }
 }
-
 
 module.exports = {
     getMessagesByConversation,
