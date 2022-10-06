@@ -72,7 +72,6 @@ const UpdateUser = async (req,res) => {
         throw error
     }
 }
-
 const DeleteUser = async (req,res) => {
     try{
 
@@ -80,7 +79,6 @@ const DeleteUser = async (req,res) => {
         throw error
     }
 }
-
 const GetUserDetails = async (req,res) => {
     try{
 
@@ -98,7 +96,6 @@ const GetSocketFromName = async (req,res) => {
         throw error
     }
 }
-
 module.exports = {
     signup,
     DeleteUser,
