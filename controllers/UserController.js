@@ -1,4 +1,4 @@
-const {User , Message, Conversation, UserFriendRequests, UserFriends}  = require('../models')
+const {User , Message, Conversation, UserFriendRequests, UserFriends, MessagesUsers}  = require('../models')
 const middleware = require('../middleware')
 
 const GetAllUsers = async (req,res) => {
@@ -39,6 +39,9 @@ const signup = async (req,res) => {
 }
 const login = async (req,res) => {
     try{
+        if(req.body.name === '' || req.body.password === ''){
+            return res.send({message:'Enter Both a Name and Password.'})
+        }
         const user = await User.findOne({
             where:{
                 name:req.body.name,
@@ -112,12 +115,12 @@ const GetUserDetails = async (req,res) => {
                 model:User,
                 as:'friendrequestrecieved',
                 through:UserFriendRequests
-        },
-        {
-            model:User,
-            as:'friend',
-            through:UserFriends
-    }]})
+            },
+            {
+                model:User,
+                as:'friend',
+                through:UserFriends
+            } ]})
         res.send(user)
     }catch(error){
         throw error

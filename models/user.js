@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         through: {model:models.userConversation},
         foreignKey:'userId'
       })
-      User.hasMany(models.Message,{
-        as:'sender',
-        foreignKey:'senderId',
+      User.belongsToMany(models.Message,{
+        as:'userfriend',
+        through:models.MessagesUsers,
+        foreignKey:'userfriendsId',
       })
       User.belongsToMany(models.User,{
         as:'friend',

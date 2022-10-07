@@ -1,29 +1,35 @@
-const {User, Message, Conversation}  = require('../models')
+const {User, Message, Conversation, UserFriends}  = require('../models')
 
-const getMessagesByConversation = async (req,res) => {
+const getMessagesByUsers = async (req,res) => {
     try{
-        const conversationAndMessages = await Conversation.findOne({
+        const {foreignId, primaryId} = req.body
+        const sentMessages = await Message.findAll({
             where:{
-                id:req.body.conversationId
-            },
-            include:[{
-                model:Message,
-                as:'conversationOwner'
-            }]
+                senderId:primaryId, 
+                recieverId:foreignId
+            }
         })
-        res.send(conversationAndMessages)
+        const recievedMessages = await Message.findAll({
+            where:{
+                senderId:foreignId, 
+                recieverId:primaryId
+            }
+        })
+    res.send({sentMessages:sentMessages,recievedMessages:recievedMessages })
     }catch(error){
         throw error
     }
 }
 const CreateMessage = async (req,res) => {
     try{
+        const {foreignUser, primaryUser, content} = req.body
         const message = await Message.create({
-            content:req.body.content,
-            senderId:req.body.senderId,
-            conversationId:req.body.conversationId
+            content:content,
+            senderId:primaryUser.id,
+            recieverId:foreignUser.id
         })
-        res.send(message)
+
+        res.send({message:message})
     }catch(error){
         throw error
     }
@@ -37,7 +43,7 @@ const DeleteMessage = async (req,res) => {
 }
 
 module.exports = {
-    getMessagesByConversation,
+    getMessagesByUsers,
     DeleteMessage,
     CreateMessage,
 }
