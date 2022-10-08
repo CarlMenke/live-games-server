@@ -16,6 +16,7 @@ app.listen(3001, () => console.log(`API Server Started On Port: 3001`))
 //socket.io establishment
 const http = require('http')
 const { Server } = require("socket.io")
+const { disconnect } = require('process')
 const socket = require('express')()
 socket.use(cors())
 const server = http.createServer(socket)
@@ -27,7 +28,7 @@ const io = new Server(server, {
     }
 })
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     socket.on("send private message", ({recipientId, message}) => {
         socket.to(recipientId).emit("recieve private message", message)
     }) 
@@ -36,9 +37,17 @@ io.on("connection", (socket) => {
         socket.emit("recievedSocketId",socket.id)
     })
 
-    socket.on('send reload' , ((userSocketId)=>{
-        socket.to(userSocketId).emit("recieve reload")
+    socket.on('send reload' , ((data)=>{
+        socket.to(data.socket).emit("recieve reload", data)
     }))
+
+    socket.on('send typing start',(userSocketId)=>{
+        socket.to(userSocketId).emit("recieve typing start")
+    })
+
+    socket.on('send typing end',(userSocketId)=>{
+        socket.to(userSocketId).emit("recieve typing end")
+    })
 })
 
 server.listen(3002, () => console.log("Socket.io Server Started On Port: 3002"))

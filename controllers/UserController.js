@@ -10,6 +10,12 @@ const GetAllUsers = async (req,res) => {
 }
 const signup = async (req,res) => {
     try{
+        if(!req.body.name  || req.body.name === ''){
+            return res.send({message:"Must Enter a Name"})
+        }
+        if(!req.body.password || req.body.password === ''){
+            return res.send({message:"Must Enter a Password"})
+        }
         const exists = await User.findOne({
             where:{
                 name:req.body.name
@@ -39,8 +45,11 @@ const signup = async (req,res) => {
 }
 const login = async (req,res) => {
     try{
-        if(req.body.name === '' || req.body.password === ''){
-            return res.send({message:'Enter Both a Name and Password.'})
+        if(!req.body.name  || req.body.name === ''){
+            return res.send({message:"Must Enter a Name"})
+        }
+        if(!req.body.password || req.body.password === ''){
+            return res.send({message:"Must Enter a Password"})
         }
         const user = await User.findOne({
             where:{
@@ -128,6 +137,7 @@ const GetUserDetails = async (req,res) => {
 }
 const GetSocketFromName = async (req,res) => {
     try{
+        console.log(req.body)
         const user = await User.findOne({
             where:{
                 name:req.body.name
@@ -142,7 +152,8 @@ const GetSocketFromName = async (req,res) => {
             as:'friend',
             through:UserFriends
     }]})
-        res.send(user.socket)
+    console.log(user)
+        res.send(user?user.socket:{message:"User Not Found"})
     }catch(error){
         throw error
     }
@@ -165,7 +176,21 @@ const SendFriendRequest = async (req,res) => {
                 res.send({message:"Already Friends"})
             }else{
                 const request = await UserFriendRequests.create({userId:senderId, friendId:user.id})
-                res.send({requestIds:request, message:`Friend Request Sent To ${recieverName}`})
+                const sendingUser = await User.findOne({
+                    where:{
+                        id:senderId
+                    },           
+                    include:[{
+                        model:User,
+                        as:'friendrequestrecieved',
+                        through:UserFriendRequests
+                },
+                {
+                    model:User,
+                    as:'friend',
+                    through:UserFriends
+            }]})
+                res.send({user:sendingUser, message:`Friend Request Sent To ${recieverName}`})
             }
         }
     }catch(error){
@@ -195,7 +220,7 @@ const FriendRequestResponse = async (req,res) => {
             await UserFriends.create({userId:friendId, friendId:userId})
             res.send({user:user})
         }else{
-            res.send({message:`${friend.name}'s friend request denied.`})
+            res.send({message:`request denied.`})
         }
     }catch(error){
         throw error
