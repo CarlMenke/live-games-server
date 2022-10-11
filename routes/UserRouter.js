@@ -59,7 +59,12 @@ Router.post(
     middleware.verifyToken,
     controller.FriendRequestResponse
 )
-
+Router.post(
+    '/update/openchatwith',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.OpenChat
+)
 
 module.exports = Router
 

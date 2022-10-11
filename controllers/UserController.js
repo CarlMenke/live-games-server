@@ -71,7 +71,7 @@ const login = async (req,res) => {
                 name:user.name
             }
             let token = middleware.createToken(payload)
-            res.send({user: payload, token, login:true, message:`Welcome ${user.name}`})
+            res.send({user: user, token, login:true, message:`Welcome ${user.name}`})
         }else{
             res.send({login:false, message:'Incorrect Password or Name'})
         }
@@ -226,6 +226,24 @@ const FriendRequestResponse = async (req,res) => {
         throw error
     }
 }
+const OpenChat = async (req,res) => {
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    try{
+        console.log(req.body)
+        let user = await User.findOne(
+            {
+                where:{
+                    id:req.body.userId
+                }
+            })
+            console.log(user)
+        user.set({open_chat_with:req.body.chatterName})
+        user = await user.save()
+        res.send(user)
+    }catch(error){
+        throw error
+    }
+}
 module.exports = {
     signup,
     DeleteUser,
@@ -237,4 +255,5 @@ module.exports = {
     GetSocketFromName,
     SendFriendRequest,
     FriendRequestResponse,
+    OpenChat
 }

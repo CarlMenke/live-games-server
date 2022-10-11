@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/api', AppRouter)
 app.listen(3001, () => console.log(`API Server Started On Port: 3001`))
+const { User }  = require('./models')
 
 
 //socket.io establishment
@@ -29,16 +30,20 @@ const io = new Server(server, {
 })
 
 io.on("connection", async (socket) => {
-    socket.on("send private message", ({recipientId, message}) => {
-        socket.to(recipientId).emit("recieve private message", message)
-    }) 
 
-    socket.on("getSocketId", () => {
-        socket.emit("recievedSocketId",socket.id)
+    socket.on('send message', async (recievingUserSocket, sendingUserName) => {
+
+        const reciever = await User.findOne({where:{socket:recievingUserSocket}})
+        const sender = await User.findOne({where:{name:sendingUserName}})
+        console.log(`recieving user's open_chat_with{${reciever.open_chat_with}}  sending user's name{${sendingUserName}}, recieving users socket {${recievingUserSocket}}!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+        if(reciever.open_chat_with === sendingUserName){
+            socket.to(recievingUserSocket).emit('recieved message', {senderId:sender.id, recieverId:reciever.id})
+        }
     })
 
-    socket.on('send reload' , ((data)=>{
-        socket.to(data.socket).emit("recieve reload", data)
+    socket.on('send friend request' , ((data)=>{
+        console.log('server side send friend request event data', data)
+        socket.to(data).emit("recieve friend request", data)
     }))
 
     socket.on('send typing start',(userSocketId)=>{

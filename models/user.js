@@ -40,7 +40,8 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     name: DataTypes.STRING,
     password: DataTypes.STRING,
-    socket: DataTypes.STRING
+    socket: DataTypes.STRING,
+    open_chat_with: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
