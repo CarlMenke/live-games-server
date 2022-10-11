@@ -24,7 +24,7 @@ const server = http.createServer(socket)
 
 const io = new Server(server, {
     cors:{
-        origin:"*",
+        origin:"https://sendquick.herokuapp.com/",
         methods:["GET", "POST"]
     }
 })
@@ -62,7 +62,7 @@ io.on("connection", async (socket) => {
     })
 })
 
-server.listen(22386, () => console.log(`Socket server listening on port: 3002`))
+server.listen(22386, () => console.log(`Socket server listening on port: 22386`))
 
 
 
