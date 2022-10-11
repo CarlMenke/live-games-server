@@ -64,9 +64,7 @@ io.on("connection", async (socket) => {
     })
 })
 
-const SOCKETPORT = process.env.PORT || 3002
-
-server.listen(SOCKETPORT, () => console.log(`Socket server listening on port: ${SOCKETPORT}`))
+server.listen(3002, () => console.log(`Socket server listening on port: 3002`))
 
 
 
