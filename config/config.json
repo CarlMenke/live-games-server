@@ -1,20 +1,23 @@
 {
   "development": {
-    "username": "postgres",
-    "database": "messages_development",
-    "host": "127.0.0.1",
+    "username": "tfuwejvveaqfkl",
+    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
+    "database": "dquuaganbv6r",
+    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
     "dialect": "postgres"
   },
   "test": {
-    "username": "postgres",
-    "database": "messages_test",
-    "host": "127.0.0.1",
+    "username": "tfuwejvveaqfkl",
+    "database": "dquuaganbv6r",
+    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
+    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
     "dialect": "postgres"
   },
   "production": {
-    "username": "postgres",
-    "database": "messages_production",
-    "host": "127.0.0.1",
+    "username": "tfuwejvveaqfkl",
+    "database": "dquuaganbv6r",
+    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
+    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }
