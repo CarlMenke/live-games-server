@@ -62,7 +62,7 @@ io.on("connection", async (socket) => {
     })
 })
 
-server.listen(22386, () => console.log(`Socket server listening on port: 22386`))
+server.listen(PORT, () => console.log(`Socket server listening on port: ${PORT}`))
 
 
 
