@@ -227,7 +227,6 @@ const FriendRequestResponse = async (req,res) => {
     }
 }
 const OpenChat = async (req,res) => {
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     try{
         console.log(req.body)
         let user = await User.findOne(
@@ -244,6 +243,7 @@ const OpenChat = async (req,res) => {
         throw error
     }
 }
+
 module.exports = {
     signup,
     DeleteUser,
@@ -255,5 +255,5 @@ module.exports = {
     GetSocketFromName,
     SendFriendRequest,
     FriendRequestResponse,
-    OpenChat
+    OpenChat,
 }

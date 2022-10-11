@@ -41,9 +41,28 @@ const DeleteMessage = async (req,res) => {
         throw error
     }
 }
+const GetRecent = async (req,res) =>{
+    try{
+        const {user1, user2} = req.body
+
+        const message = await Message.findOne({
+            where:{
+                senderId:user1.id, 
+                recieverId:user2.id
+            },
+            order: [ [ 'createdAt', 'DESC' ]],
+        });
+
+    console.log('message::::',message)
+    res.send({message:message})
+    }catch(error){
+        throw error
+    }
+}
 
 module.exports = {
     getMessagesByUsers,
     DeleteMessage,
     CreateMessage,
+    GetRecent
 }
