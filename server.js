@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/api', AppRouter)
-app.listen(3001, () => console.log(`API Server Started On Port: 3001`))
+app.listen(PORT, () => console.log(`API Server Started On Port:${PORT}`))
 const { User }  = require('./models')
 
 
@@ -24,7 +24,7 @@ const server = http.createServer(socket)
 
 const io = new Server(server, {
     cors:{
-        origin:"http://localhost:3000",
+        origin:"*",
         methods:["GET", "POST"]
     }
 })
