@@ -34,14 +34,12 @@ io.on("connection", async (socket) => {
     socket.on('send message', async (recievingUserSocket, sendingUserName) => {
         const reciever = await User.findOne({where:{socket:recievingUserSocket}})
         const sender = await User.findOne({where:{name:sendingUserName}})
-        console.log(`send message:::: recieving user's open_chat_with{${reciever.open_chat_with}}  sending user's name{${sendingUserName}}, recieving users socket {${recievingUserSocket}}!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
         if(reciever.open_chat_with === sendingUserName){
             socket.to(recievingUserSocket).emit('recieved message', {senderId:sender.id, recieverId:reciever.id})
         }
     })
 
     socket.on('send friend request' , ((data)=>{
-        console.log('server side send friend request event data', data)
         socket.to(data).emit("recieve friend request", data)
     }))
 
@@ -64,7 +62,7 @@ io.on("connection", async (socket) => {
     })
 })
 
-server.listen(3002, () => console.log(`Socket server listening on port: 3002`))
+server.listen(22386, () => console.log(`Socket server listening on port: 3002`))
 
 
 
