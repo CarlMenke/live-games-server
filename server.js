@@ -32,10 +32,9 @@ const io = new Server(server, {
 io.on("connection", async (socket) => {
 
     socket.on('send message', async (recievingUserSocket, sendingUserName) => {
-
         const reciever = await User.findOne({where:{socket:recievingUserSocket}})
         const sender = await User.findOne({where:{name:sendingUserName}})
-        console.log(`recieving user's open_chat_with{${reciever.open_chat_with}}  sending user's name{${sendingUserName}}, recieving users socket {${recievingUserSocket}}!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+        console.log(`send message:::: recieving user's open_chat_with{${reciever.open_chat_with}}  sending user's name{${sendingUserName}}, recieving users socket {${recievingUserSocket}}!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
         if(reciever.open_chat_with === sendingUserName){
             socket.to(recievingUserSocket).emit('recieved message', {senderId:sender.id, recieverId:reciever.id})
         }
@@ -46,12 +45,22 @@ io.on("connection", async (socket) => {
         socket.to(data).emit("recieve friend request", data)
     }))
 
-    socket.on('send typing start',(userSocketId)=>{
-        socket.to(userSocketId).emit("recieve typing start")
+    socket.on('send typing start', async (recievingUserSocket, sendingUserName)=>{
+        const reciever = await User.findOne({where:{socket:recievingUserSocket}})
+        if(reciever){
+            if(reciever.open_chat_with === sendingUserName){
+                socket.to(recievingUserSocket).emit('recieve typing start')
+            }
+        }
     })
 
-    socket.on('send typing end',(userSocketId)=>{
-        socket.to(userSocketId).emit("recieve typing end")
+    socket.on('send typing end', async (recievingUserSocket, sendingUserName)=>{
+        const reciever = await User.findOne({where:{socket:recievingUserSocket}})
+        if(reciever){
+            if(reciever.open_chat_with === sendingUserName){
+                socket.to(recievingUserSocket).emit('recieve typing end')
+            }
+        }
     })
 })
 
