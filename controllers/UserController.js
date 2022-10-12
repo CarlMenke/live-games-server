@@ -110,6 +110,7 @@ const UpdateUser = async (req,res) => {
 const DeleteUser = async (req,res) => {
     try{
         const result = await User.destroy({where:{id:req.body.user.id}})
+        console.log(result)
         res.send({message:'Deleted User', response:result})
     }catch(error){
         throw error
