@@ -19,7 +19,7 @@ Router.put(
     middleware.verifyToken,
     controller.UpdateUser
 )
-Router.delete(
+Router.post(
     '/delete',
     middleware.stripToken,
     middleware.verifyToken,
