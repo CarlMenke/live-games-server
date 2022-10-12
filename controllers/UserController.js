@@ -109,7 +109,8 @@ const UpdateUser = async (req,res) => {
 }
 const DeleteUser = async (req,res) => {
     try{
-
+        const result = await User.destroy({where:{id:req.body.user.id}})
+        res.send({message:'Deleted User', response:result})
     }catch(error){
         throw error
     }
@@ -243,7 +244,6 @@ const OpenChat = async (req,res) => {
         throw error
     }
 }
-
 module.exports = {
     signup,
     DeleteUser,

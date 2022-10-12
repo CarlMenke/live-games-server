@@ -65,6 +65,13 @@ Router.post(
     middleware.verifyToken,
     controller.OpenChat
 )
+Router.delete(
+    '/delete',
+    middleware.stripToken,
+    middleware.verifyToken,
+    controller.GetDeleteUser
+)
+
 
 module.exports = Router
 
