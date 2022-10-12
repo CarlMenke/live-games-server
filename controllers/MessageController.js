@@ -1,4 +1,4 @@
-const {User, Message, Conversation, UserFriends}  = require('../models')
+const { Message }  = require('../models')
 
 const getMessagesByUsers = async (req,res) => {
     try{
@@ -34,17 +34,9 @@ const CreateMessage = async (req,res) => {
         throw error
     }
 }
-const DeleteMessage = async (req,res) => {
-    try{
-
-    }catch(error){
-        throw error
-    }
-}
 const GetRecent = async (req,res) =>{
     try{
         const {user1, user2} = req.body
-
         const message = await Message.findOne({
             where:{
                 senderId:user1.id, 
@@ -52,8 +44,6 @@ const GetRecent = async (req,res) =>{
             },
             order: [ [ 'createdAt', 'DESC' ]],
         });
-
-    console.log('message::::',message)
     res.send({message:message})
     }catch(error){
         throw error
@@ -62,7 +52,6 @@ const GetRecent = async (req,res) =>{
 
 module.exports = {
     getMessagesByUsers,
-    DeleteMessage,
     CreateMessage,
     GetRecent
 }

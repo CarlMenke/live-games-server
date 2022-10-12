@@ -1,13 +1,6 @@
-const {User , Message, Conversation, UserFriendRequests, UserFriends, MessagesUsers}  = require('../models')
+const {User , UserFriendRequests, UserFriends }  = require('../models')
 const middleware = require('../middleware')
 
-const GetAllUsers = async (req,res) => {
-    try{
-
-    }catch(error){
-        throw error
-    }
-}
 const signup = async (req,res) => {
     try{
         if(!req.body.name  || req.body.name === ''){
@@ -100,13 +93,6 @@ const UpdateSocketId = async (req,res) => {
         throw error
     }
 }
-const UpdateUser = async (req,res) => {
-    try{
-
-    }catch(error){
-        throw error
-    }
-}
 const DeleteUser = async (req,res) => {
     try{
         const result = await User.destroy({where:{id:req.params.id}})
@@ -130,7 +116,7 @@ const GetUserDetails = async (req,res) => {
                 model:User,
                 as:'friend',
                 through:UserFriends
-            } ]})
+            }]})
         res.send(user)
     }catch(error){
         throw error
@@ -210,8 +196,8 @@ const FriendRequestResponse = async (req,res) => {
                 model:User,
                 as:'friendrequestrecieved',
                 through:UserFriendRequests
-        },
-        {
+            },
+            {
             model:User,
             as:'friend',
             through:UserFriends
@@ -247,8 +233,6 @@ module.exports = {
     signup,
     DeleteUser,
     GetUserDetails,
-    UpdateUser,
-    GetAllUsers,
     login,
     UpdateSocketId,
     GetSocketFromName,
