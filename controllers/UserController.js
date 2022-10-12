@@ -109,8 +109,8 @@ const UpdateUser = async (req,res) => {
 }
 const DeleteUser = async (req,res) => {
     try{
-        console.log('rwq.body.user!!!!!!!!',req.body.id)
-        const result = await User.destroy({where:{id:req.body.id}})
+        console.log('rwq.body.user!!!!!!!!',req.params.id)
+        const result = await User.destroy({where:{id:req.params.id}})
         console.log('restlt of destroy!!!!!!!!!!' , result)
         res.send({message:'Deleted User', response:result})
     }catch(error){
