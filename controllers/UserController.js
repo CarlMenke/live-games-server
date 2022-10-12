@@ -229,7 +229,6 @@ const FriendRequestResponse = async (req,res) => {
 }
 const OpenChat = async (req,res) => {
     try{
-        console.log(req.body)
         let user = await User.findOne(
             {
                 where:{

@@ -12,22 +12,6 @@ app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/api', AppRouter)
 const { User }  = require('./models')
 
-
-//socket.io establishment
-// const http = require('http')
-// const { Server } = require("socket.io")
-// const { disconnect } = require('process')
-// const socket = require('express')()
-// socket.use(cors())
-// const server = http.createServer(socket)
-
-// const io = new Server(server, {
-//     cors:{
-//         origin:"https://sendquick.herokuapp.com/",
-//         methods:["GET", "POST"]
-//     }
-// })
-
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 

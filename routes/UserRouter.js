@@ -20,7 +20,7 @@ Router.put(
     controller.UpdateUser
 )
 Router.delete(
-    '/delete/:userId',
+    '/delete',
     middleware.stripToken,
     middleware.verifyToken,
     controller.DeleteUser
