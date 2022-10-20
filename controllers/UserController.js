@@ -1,6 +1,11 @@
 const {User , UserFriendRequests, UserFriends }  = require('../models')
 const middleware = require('../middleware')
-
+const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS,PUT, DELETE',
+    'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+    'Content-Type': 'application/json',
+}
 const signup = async (req,res) => {
     try{
         if(!req.body.name  || req.body.name === ''){
@@ -38,6 +43,7 @@ const signup = async (req,res) => {
 }
 const login = async (req,res) => {
     try{
+        res.headers = headers
         if(!req.body.name  || req.body.name === ''){
             return res.send({message:"Must Enter a Name"})
         }
