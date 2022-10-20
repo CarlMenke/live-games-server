@@ -25,7 +25,7 @@ const { User }  = require('./models')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server,{  
     cors: {
-        withCredentials: true,
+        withCredentials: false,
         'Access-Control-Allow-Credentials':"true",
         origin: "https://sendquick.herokuapp.com",
         methods: ["GET", "POST"]
