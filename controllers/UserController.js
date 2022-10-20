@@ -4,6 +4,7 @@ const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, GET, OPTIONS,PUT, DELETE',
     'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+    'Access-Control-Allow-credentials': true,
     'Content-Type': 'application/json',
 }
 const signup = async (req,res) => {
@@ -69,7 +70,15 @@ const login = async (req,res) => {
                 name:user.name
             }
             let token = middleware.createToken(payload)
-            res.send({user: user, token, login:true, message:`Welcome ${user.name}`, headers})
+            res.send({
+                user: user, token,
+                login:true,
+                message:`Welcome ${user.name}`,
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS,PUT, DELETE',
+                'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+                'Access-Control-Allow-credentials': true,
+                'Content-Type': 'application/json',})
             console.log(res)
         }else{
             res.send({login:false, message:'Incorrect Password or Name',  headers})
