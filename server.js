@@ -5,7 +5,13 @@ const AppRouter = require('./routes/AppRouter');
 const PORT = process.env.PORT || 3001;
 const cors = require('cors');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'https://sendquick.herokuapp.com',
+    allowedHeaders: ['Access-Control-Allow-Origin'],
+    credentials: true
+  })
+);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.json({ message: 'Server Works' }));
