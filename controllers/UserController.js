@@ -151,6 +151,7 @@ const SendFriendRequest = async (req,res) => {
         const user = await User.findOne({
             where:{name:recieverName}
         })
+        console.log(user)
         if(!user){
             res.send({message:'User Not Found'})
         }else{
