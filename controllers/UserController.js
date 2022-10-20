@@ -74,6 +74,7 @@ const login = async (req,res) => {
 }
 const UpdateSocketId = async (req,res) => {
     try{
+        console.log(req)
         let user = await User.findOne(
             {where:{name:req.body.name},
             include:[{
