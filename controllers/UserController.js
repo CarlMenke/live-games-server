@@ -71,6 +71,7 @@ const login = async (req,res) => {
             }
             let token = middleware.createToken(payload)
             res.send({user: user, token, login:true, message:`Welcome ${user.name}`})
+            console.log(res)
         }else{
             res.send({login:false, message:'Incorrect Password or Name'})
         }
