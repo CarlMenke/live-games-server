@@ -68,12 +68,7 @@ const login = async (req,res) => {
                 user: user,
                 token,
                 login:true,
-                message:`Welcome ${user.name}`,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, GET, OPTIONS,PUT, DELETE',
-                'Access-Control-Allow-Headers': 'Authorization, Content-Type',
-                'Access-Control-Allow-credentials': true,
-                'Content-Type': 'application/json',})
+                message:`Welcome ${user.name}`})
             console.log(res)
         }else{
             res.send({login:false, message:'Incorrect Password or Name',  headers})
