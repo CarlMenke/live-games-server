@@ -151,7 +151,7 @@ const SendFriendRequest = async (req,res) => {
         const user = await User.findOne({
             where:{name:recieverName}
         })
-        console.log(user)
+        console.log('user!!!!!!', user)
         if(!user){
             res.send({message:'User Not Found'})
         }else{
@@ -164,6 +164,7 @@ const SendFriendRequest = async (req,res) => {
                 res.send({message:"Already Friends"})
             }else{
                 const request = await UserFriendRequests.create({userId:senderId, friendId:user.id})
+                console.log('request !!!!!', request)
                 const sendingUser = await User.findOne({
                     where:{
                         id:senderId
@@ -178,6 +179,7 @@ const SendFriendRequest = async (req,res) => {
                     as:'friend',
                     through:UserFriends
             }]})
+            console.log('sending user', sendingUser)
                 res.send({user:sendingUser, message:`Friend Request Sent To ${recieverName}`})
             }
         }

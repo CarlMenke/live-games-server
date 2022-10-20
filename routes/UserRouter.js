@@ -16,20 +16,13 @@ Router.put(
     '/update/:userId',
     middleware.stripToken,
     middleware.verifyToken,
-    controller.UpdateUser
 )
 Router.delete(
     '/delete/:id',
     middleware.stripToken,
     middleware.verifyToken,
     controller.DeleteUser
- )
-Router.get(
-    '/all',
-    middleware.stripToken,
-    middleware.verifyToken,
-    controller.GetAllUsers
- )
+)
 Router.post(
     '/login',
     controller.login
