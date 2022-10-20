@@ -1,12 +1,6 @@
 const {User , UserFriendRequests, UserFriends }  = require('../models')
 const middleware = require('../middleware')
-const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS,PUT, DELETE',
-    'Access-Control-Allow-Headers': 'Authorization, Content-Type',
-    'Access-Control-Allow-credentials': true,
-    'Content-Type': 'application/json',
-}
+
 const signup = async (req,res) => {
     try{
         if(!req.body.name  || req.body.name === ''){
@@ -71,7 +65,8 @@ const login = async (req,res) => {
             }
             let token = middleware.createToken(payload)
             res.send({
-                user: user, token,
+                user: user,
+                token,
                 login:true,
                 message:`Welcome ${user.name}`,
                 'Access-Control-Allow-Origin': '*',

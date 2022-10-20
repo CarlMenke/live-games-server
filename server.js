@@ -23,7 +23,11 @@ app.get('/', (req, res) => res.json({ message: 'Server Works' }))
 app.use('/api', AppRouter)
 const { User }  = require('./models')
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server,{  
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+  }});
 
 io.on("connection", async (socket) => {
     socket.on('send message', async (recievingUserSocket, sendingUserName) => {
