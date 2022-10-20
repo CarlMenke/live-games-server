@@ -87,12 +87,10 @@ const login = async (req, res) => {
         login: true,
         message: `Welcome ${user.name}`
       });
-      console.log(res);
     } else {
       res.send({
         login: false,
-        message: 'Incorrect Password or Name',
-        headers
+        message: 'Incorrect Password or Name'
       });
     }
   } catch (error) {
