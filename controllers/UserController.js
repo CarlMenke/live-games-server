@@ -43,7 +43,6 @@ const signup = async (req,res) => {
 }
 const login = async (req,res) => {
     try{
-        res.headers = headers
         if(!req.body.name  || req.body.name === ''){
             return res.send({message:"Must Enter a Name"})
         }
@@ -70,10 +69,10 @@ const login = async (req,res) => {
                 name:user.name
             }
             let token = middleware.createToken(payload)
-            res.send({user: user, token, login:true, message:`Welcome ${user.name}`})
+            res.send({user: user, token, login:true, message:`Welcome ${user.name}`, headers})
             console.log(res)
         }else{
-            res.send({login:false, message:'Incorrect Password or Name'})
+            res.send({login:false, message:'Incorrect Password or Name',  headers})
         }
     }catch(error){
         throw error
