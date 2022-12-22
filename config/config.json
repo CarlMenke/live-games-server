@@ -1,44 +1,26 @@
 {
   "development": {
-    "username": "tfuwejvveaqfkl",
-    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
-    "database": "dquuaganbv6r",
-    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
+    "username": "postgres",
+    "password": "Dude1380",
+    "database": "sendquickdb",
+    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
     "dialect": "postgres",
-    "port":5432,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "port":5432
   },
   "test": {
-    "username": "tfuwejvveaqfkl",
-    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
-    "database": "dquuaganbv6r",
-    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
+    "username": "postgres",
+    "password": "Dude1380",
+    "database": "sendquickdb",
+    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
     "dialect": "postgres",
-    "port":5432,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "port":5432
   },
   "production": {
-    "username": "tfuwejvveaqfkl",
-    "password": "843eebb04e6ecd840a404803f26216e4dbaa4ba19947ffb6e44c1284e1e3de6f",
-    "database": "dquuaganbv6r",
-    "host": "ec2-18-208-55-135.compute-1.amazonaws.com",
+    "username": "postgres",
+    "password": "Dude1380",
+    "database": "sendquickdb",
+    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
     "dialect": "postgres",
-    "port":5432,
-    "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+    "port":5432
   }
 }
