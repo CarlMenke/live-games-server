@@ -24,7 +24,7 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    console.log("EACH MODEL IN THE FOR EACH LOOP!!!!!!",model)
+    console.log("EACH MODEL IN THE FOR EACH LOOP!!!!!!", model)
     db[model.name] = model;
   });
 
