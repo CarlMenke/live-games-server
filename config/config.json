@@ -1,35 +1,20 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "Dude1380",
-    "database": "postgres",
-    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
+    "protocol": "postgres",
     "dialect": "postgres",
-    "dialectOptions":{
-      "ssl":"Amazon RDS"
-    },
-    "port":5432
+    "logging":true,
+    "timestamps":false
   },
   "test": {
-    "username": "postgres",
-    "password": "Dude1380",
-    "database": "postgres",
-    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
+    "protocol": "postgres",
     "dialect": "postgres",
-    "dialectOptions":{
-      "ssl":"Amazon RDS"
-    },
-    "port":5432
+    "logging":true,
+    "timestamps":false
   },
   "production": {
-    "username": "postgres",
-    "password": "Dude1380",
-    "database": "postgres",
-    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
+    "protocol": "postgres",
     "dialect": "postgres",
-    "dialectOptions":{
-      "ssl":"Amazon RDS"
-    },
-    "port":5432
-  }
+    "logging":true,
+    "timestamps":false
+   }
 }
