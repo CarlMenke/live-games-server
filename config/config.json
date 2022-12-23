@@ -5,6 +5,9 @@
     "database": "postgres",
     "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
     "dialect": "postgres",
+    "dialectOptions":{
+      "ssl":"Amazon RDS"
+    },
     "port":5432
   },
   "test": {
@@ -13,6 +16,9 @@
     "database": "postgres",
     "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
     "dialect": "postgres",
+    "dialectOptions":{
+      "ssl":"Amazon RDS"
+    },
     "port":5432
   },
   "production": {
