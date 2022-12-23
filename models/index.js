@@ -7,6 +7,7 @@ const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
+console.log("CONFIG VARIABLE RIGTH AFTER IMPORT!!!!!!",config)
 const db = {};
 
 let sequelize;
@@ -15,7 +16,7 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
-
+console.log("SEQUELIZE VARIABLE RIGTH AFTER INITZALIATION!!!!!!", sequelize)
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -23,6 +24,7 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    console.log("EACH MODEL IN THE FOR EACH LOOP!!!!!!",model)
     db[model.name] = model;
   });
 
@@ -34,5 +36,5 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
+console.log("db varaible right before export!!!!!!!!", db)
 module.exports = db;
