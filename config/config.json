@@ -1,20 +1,18 @@
 {
   "development": {
     "protocol": "postgres",
+    "username": "postgres",
     "dialect": "postgres",
-    "logging":true,
     "timestamps":false
   },
   "test": {
     "protocol": "postgres",
     "dialect": "postgres",
-    "logging":true,
     "timestamps":false
   },
   "production": {
     "protocol": "postgres",
     "dialect": "postgres",
-    "logging":true,
     "timestamps":false
    }
 }
