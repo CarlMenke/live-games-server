@@ -2,6 +2,7 @@ const { User, UserFriendRequests, UserFriends } = require('../models');
 const middleware = require('../middleware');
 
 const signup = async (req, res) => {
+  console.log("INSIDE SIGNUP CONTROLLER!!!!!!!!!!")
   try {
     if (!req.body.name || req.body.name === '') {
       return res.send({ message: 'Must Enter a Name' });
@@ -9,6 +10,7 @@ const signup = async (req, res) => {
     if (!req.body.password || req.body.password === '') {
       return res.send({ message: 'Must Enter a Password' });
     }
+    console.log("RGTH AFTER START IF STATEMENTS!!!!!!!!!!")
     const exists = await User.findOne({
       where: {
         name: req.body.name
@@ -21,6 +23,7 @@ const signup = async (req, res) => {
         }
       ]
     });
+    console.log("EXISTS VARIABLE!!!!!!!!!!:", exists)
     if (!exists) {
       const { name, password } = req.body;
       let hashedPassword = await middleware.hashPassword(password);
@@ -29,6 +32,7 @@ const signup = async (req, res) => {
         password: hashedPassword,
         socket: 'Not Yet Connected'
       });
+      console.log("USER VARIABLE!!!!!!!!!!:", user)
       let payload = {
         id: user.id,
         name: user.name
