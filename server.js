@@ -1,4 +1,3 @@
-//psql server establishment
 const app = require('express')();
 const bodyParser = require('body-parser');
 const AppRouter = require('./routes/AppRouter');
@@ -19,6 +18,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/', (req, res) => res.json({ message: 'Server Works' }));
 app.use('/api', AppRouter);
+
 const { User } = require('./models');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
