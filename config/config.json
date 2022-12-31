@@ -1,12 +1,4 @@
 {
-  "development": {
-    "username": "postgres",
-    "password": "Dude1380",
-    "database": "postgres",
-    "host": "sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com",
-    "dialect": "postgres",
-    "port":5432
-  },
   "test": {
     "protocol": "postgres",
     "dialect": "postgres",
