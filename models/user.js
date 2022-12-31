@@ -5,11 +5,6 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      User.belongsToMany(models.Conversation,{
-        as:'participant',
-        through: {model:models.userConversation},
-        foreignKey:'userId'
-      })
       User.belongsToMany(models.Message,{
         as:'userfriend',
         through:models.MessagesUsers,
