@@ -7,10 +7,9 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
-const URI = process.env.getDatabaseURI
-console.log(URI.body)
+const URI = process.env.URI
 
-let sequelize = new Sequelize("postgres://postgres:Dude1380@sendquickdb.cgyomgrwl384.us-west-2.rds.amazonaws.com:5432/postgres", config);
+let sequelize = new Sequelize(URI, config);
 
 fs
   .readdirSync(__dirname)
