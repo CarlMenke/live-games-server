@@ -2,7 +2,6 @@ const { User, UserFriendRequests, UserFriends } = require('../models');
 const middleware = require('../middleware');
 
 const signup = async (req, res) => {
-  console.log("INSIDE SIGNUP CONTROLLER!!!!!!!!!!")
   try {
     if (!req.body.name || req.body.name === '') {
       return res.send({ message: 'Must Enter a Name' });
